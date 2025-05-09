@@ -46,13 +46,17 @@ def append_to_last_note(file_name):
 
 if __name__ == "__main__":
     print("1. Add note\n2. Append to last note")
-    choice = input("choose an option: ")
-    if choice not in ['1', '2']:
-        raise ValueError("Choose one of the two, please")
+    choice = input("Choose an option: ").strip()
 
-    elif choice == "1":
-        add_note()
-    elif choice == "2":
-        append_to_last_note("notes.txt")
-    else:
-        print("Invalid choice.")
+    try:
+        if choice not in ['1', '2']:
+            raise ValueError("Choose one of the two, please")
+
+        if choice == "1":
+            add_note()
+        elif choice == "2":
+            append_to_last_note("notes.txt")
+
+    except ValueError as ve:
+        print(f"❌ {ve}")
+        exit(1)
