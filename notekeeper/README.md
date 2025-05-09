@@ -64,6 +64,35 @@ notekeeper/
 
 ---
 
+
+---
+
+## 🧪 File & Error Handling Lab
+
+This project also includes a growing lab module called `file_and_error_lab.py` designed for serious, real-world Python practice.
+
+Each function in this module focuses on:
+- 📁 Robust file handling
+- 🧯 Graceful error recovery
+- 💡 Real developer use cases (reading, validating, appending, analyzing)
+
+### ✅ Included Labs
+
+- `read_file(filepath)` — safely prints contents of a file with all necessary error checks  
+- `count_lines(filepath)` — counts non-empty lines, raises errors for missing/empty files  
+
+More exercises are added and tested progressively, following professional Python design.
+
+To test these, you can run:
+
+```bash
+python main.py
+```
+
+And select a lab exercise from the menu.
+
+
+
 ## 📌 Todo / Next Features
 
 - [ ] View all notes in a file  
