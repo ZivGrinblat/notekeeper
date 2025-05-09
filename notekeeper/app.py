@@ -1,13 +1,22 @@
 import os.path
+from pyexpat.errors import messages
+
+from matplotlib.lines import lineStyles
 
 
+def ensure_file_exists(file_name, default_text="Placeholder note.\n"):
+    if not os.path.exists(file_name):
+        with open(file_name, 'w') as file:
+            file.write(default_text)
 
-def add_note():
+
+def add_note(file_name):
     try:
         note = input("Write your note: ").strip()
         if not note:
             raise ValueError("Note cannot be empty")
-        with open("notes.txt", 'a') as file:
+        ensure_file_exists(file_name)
+        with open(file_name, 'a') as file:
             file.write(note + "\n")
     except ValueError as ve:
         print(f"ERROR: {ve}")
@@ -22,10 +31,8 @@ def append_to_last_note(file_name):
         text = input("➕ Text to append to last note: ").strip()
         if not text:
             raise ValueError("Text cannot be empty")
-        # If the file doesn't exist - create it with a placeholder note
-        if not os.path.exists(file_name):
-            with open(file_name, 'w') as file:
-                file.write("Placeholder note.\n")
+
+        ensure_file_exists(file_name)
         with open(file_name, 'r') as file:
             lines = file.readlines()
 
@@ -36,6 +43,7 @@ def append_to_last_note(file_name):
 
         with open(file_name, 'w') as file:
             file.writelines(lines)
+
     except ValueError as ve:
         print(f"❌ Error: {ve}")
     except IOError as ioe:
@@ -45,6 +53,7 @@ def append_to_last_note(file_name):
 
 
 if __name__ == "__main__":
+    NOTES_FILE = "notes.txt"
     print("1. Add note\n2. Append to last note")
     choice = input("Choose an option: ").strip()
 
@@ -53,9 +62,11 @@ if __name__ == "__main__":
             raise ValueError("Choose one of the two, please")
 
         if choice == "1":
-            add_note()
+            message = add_note(NOTES_FILE)
         elif choice == "2":
-            append_to_last_note("notes.txt")
+            message = append_to_last_note(NOTES_FILE)
+
+        print(message)
 
     except ValueError as ve:
         print(f"❌ {ve}")
