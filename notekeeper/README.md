@@ -91,6 +91,16 @@ python main.py
 
 And select a lab exercise from the menu.
 
+---
+
+## 🐳 Docker Support
+
+You can run this app in a Docker container:
+
+### 🔧 Build the image
+
+```bash
+docker build -t notekeeper .
 
 
 ## 📌 Todo / Next Features
