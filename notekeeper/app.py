@@ -1,7 +1,4 @@
-import os.path
-from pyexpat.errors import messages
-
-from matplotlib.lines import lineStyles
+import os
 
 
 def ensure_file_exists(file_name, default_text="Placeholder note.\n"):
@@ -10,61 +7,61 @@ def ensure_file_exists(file_name, default_text="Placeholder note.\n"):
             file.write(default_text)
 
 
+def get_filename_from_user():
+    file_name = input("📄 Enter the file name you'd like to use (e.g., notes.txt): ").strip()
+    if not file_name:
+        raise ValueError("Filename cannot be empty.")
+    return file_name
+
+
 def add_note(file_name):
     try:
-        note = input("Write your note: ").strip()
+        note = input("📝 Write your note: ").strip()
         if not note:
-            raise ValueError("Note cannot be empty")
+            raise ValueError("Note cannot be empty.")
         ensure_file_exists(file_name)
         with open(file_name, 'a') as file:
             file.write(note + "\n")
     except ValueError as ve:
-        print(f"ERROR: {ve}")
+        return f"❌ {ve}"
     except IOError as ioe:
-        print(f"❌ File write error: {ioe}")
+        return f"❌ File write error: {ioe}"
     else:
-        print("✅ Note added successfully.")
+        return "✅ Note added successfully."
 
 
-def append_to_last_note(file_name):
+def append_note(file_name):
     try:
-        text = input("➕ Text to append to last note: ").strip()
+        text = input("➕ Enter a note to add as a new line: ").strip()
         if not text:
-            raise ValueError("Text cannot be empty")
-
+            raise ValueError("Text cannot be empty.")
         ensure_file_exists(file_name)
-        with open(file_name, 'r') as file:
-            lines = file.readlines()
-
-        if not lines:
-            raise ValueError("There are no notes to append to")
-
-        lines[-1] = lines[-1].rstrip("\n") + " " + text + "\n"
-
-        with open(file_name, 'w') as file:
-            file.writelines(lines)
-
+        with open(file_name, 'a') as file:
+            file.write(text + "\n")
     except ValueError as ve:
-        print(f"❌ Error: {ve}")
+        return f"❌ {ve}"
     except IOError as ioe:
-        print(f"❌ File error: {ioe}")
+        return f"❌ File write error: {ioe}"
     else:
-        print(f"✅ Text appended to the last line in {file_name}")
+        return f"✅ New line added to {file_name}"
 
 
 if __name__ == "__main__":
-    NOTES_FILE = "notes.txt"
-    print("1. Add note\n2. Append to last note")
-    choice = input("Choose an option: ").strip()
-
     try:
-        if choice not in ['1', '2']:
-            raise ValueError("Choose one of the two, please")
+        file_name = get_filename_from_user()
 
-        if choice == "1":
-            message = add_note(NOTES_FILE)
-        elif choice == "2":
-            message = append_to_last_note(NOTES_FILE)
+        print("\nChoose an action:")
+        print("1. Add note")
+        print("2. Append to file")
+        choice = input("Your choice (1/2): ").strip()
+
+        if choice not in ['1', '2']:
+            raise ValueError("Invalid option. Please choose 1 or 2.")
+
+        if choice == '1':
+            message = add_note(file_name)
+        elif choice == '2':
+            message = append_note(file_name)
 
         print(message)
 
