@@ -1,1 +1,4 @@
 Welcome to Git
+Today I learned how git stores snapshots as objects
+Now I know how to read Git history like a graph.
+Now I know how to read Git history like a graph.
