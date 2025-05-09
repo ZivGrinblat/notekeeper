@@ -27,9 +27,6 @@ def read_file(file_path):
         print(f"❌ File read error: {ioe}")
 
 
-import os
-
-
 def count_lines(file_path):
     """
     Counts non-empty lines in a file.
@@ -56,8 +53,6 @@ def count_lines(file_path):
         return None
 
 
-import os
-
 def append_user_note(file_path):
     """
     Appends a user note to the specified file.
@@ -80,3 +75,35 @@ def append_user_note(file_path):
     else:
         print(f"✅ Note added to {file_path}")
 
+
+def replace_in_file(file_path, old_word, new_word):
+    """
+    Replaces all occurrences of old_word with new_word in the given file.
+    """
+    if not file_path.strip():
+        raise ValueError("❌ Missing file path.")
+    if not os.path.exists(file_path):
+        raise FileNotFoundError(f"❌ File '{file_path}' does not exist.")
+    try:
+        with open(file_path, 'r') as file:
+            lines = file.readlines()
+        if not lines:
+            raise ValueError("❌ The file is empty.")
+
+        modified = []
+        replacement_count = 0
+
+        for line in lines:
+            if old_word in line:
+                replacement_count +=  line.count(old_word)
+                line = line.replace(old_word, new_word)
+            modified.append(line)
+
+        if replacement_count == 0:
+            print("⚠️ Word not found in file.")
+        else:
+            with open(file_path, 'w') as file:
+                file.writelines(modified)
+            print(f"✅ Replaced {replacement_count} occurrence(s) of '{old_word}' with '{new_word}'.")
+    except IOError as ioe:
+        print(f"❌ File read error: {ioe}")
